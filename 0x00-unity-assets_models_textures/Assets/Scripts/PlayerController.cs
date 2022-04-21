@@ -4,19 +4,38 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public Vector3 playerVelocity;
     public float speed;
-    public Rigidbody rb;
+    // public Rigidbody rb;
     public float force;
     public bool isGrounded = true;
     public float turnSpeed = 1.0f;
     float rotation;
     public float sensitivity;
     public Vector3 respawn = new Vector3(0f, 10f, 0f);
+    public Transform cam;
+    public Vector3 forward;
+    public Vector3 right;
+    public Transform Parent;
+    public float turnSmoothTime = 0.1f;
+
+    public float gravity = 9.8F;
+    public float turnSmoothVelocity;
+
+    public Transform groundCheck;
+    public float groundDistance = 10f;
+    public LayerMask groundMask;
+
+    public CharacterController playerChar;
+
+    public GameObject PlayerPill;
+
+    public Vector2 rotationalicious = Vector2.zero;
 
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        playerChar = GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
@@ -26,54 +45,57 @@ public class PlayerController : MonoBehaviour
         Rotationing();
         Respawn();
     }
-    void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "Floor")
-            isGrounded = true;
-    }
+
     void Movement()
     {
-        float xDirection = Input.GetAxis("Horizontal");
-        float zDirection = Input.GetAxis("Vertical");
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask, QueryTriggerInteraction.Ignore);
+        if (isGrounded && playerVelocity.y !> 0f)
         {
-            rb.AddForce(0, force, 0);
-            isGrounded = false;
+            Debug.Log("PV < 0");
+            playerVelocity.y = -1f;
         }
+        float xDirection = Input.GetAxisRaw("Horizontal");
+        float zDirection = Input.GetAxisRaw("Vertical");
 
+        playerChar.Move(new Vector3(0, -gravity * Time.deltaTime, 0));
+        {
+            // playerChar.AddForce(0, force, 0);
+            // rb.AddForce(0, force, 0);
+            // isGrounded = false;
+        }
+        Vector3 direction = new Vector3(xDirection, 0f, zDirection).normalized;
+
+        if (direction.magnitude >= 0.1f)
+        {
+            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
+            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+
+            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+            playerChar.Move(moveDir.normalized * speed * Time.deltaTime);
+        }
             /* moving = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
             moving *= speed;
-            moving = transform.rotation * moving;
-            if (Input.GetButton("Jump"))
-            {
-                moving.y = jumpForce;
-            } */
+            moving = transform.rotation * moving;*/
 
-        if (Input.GetKey(KeyCode.A))
-        {
-            //rotation = Input.GetAxis ("Horizontal") * turnSpeed;
-            //transform.Rotate(transform.up, rotation);
-            //rb.AddForce(speed * Time.deltaTime, 0, 0);
-            //transform.rotation = Quaternion.Euler(0f, 0f, 10f);
-            rb.velocity = new Vector3(xDirection, (rb.velocity.y/speed), zDirection) * speed;
-        }
-        if (Input.GetKey(KeyCode.W))
-        {
-            rb.velocity = new Vector3(xDirection, (rb.velocity.y/speed), zDirection) * speed;
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            rb.velocity = new Vector3(xDirection, (rb.velocity.y/speed), zDirection) * speed;
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            rb.velocity = new Vector3(xDirection, (rb.velocity.y/speed), zDirection) * speed;
-        }
+        
         //transform.position += moveDirection * speed;
+        if (isGrounded && Input.GetButtonDown("Jump"))
+        {
+            Debug.Log("before jump");
+            playerVelocity.y += Mathf.Sqrt(3f * 2f * 9.8f);
+            Debug.Log("after jump");
+        }
+        playerVelocity.y += 9.8f * Time.deltaTime;
     }
     void Rotationing()
     {
         transform.Rotate(new Vector3(0,Input.GetAxis("Mouse X") * sensitivity, 0));
+        transform.rotation = cam.rotation;
+        rotationalicious.y += Input.GetAxis("Mouse X") * sensitivity;
+        rotationalicious.x -= Input.GetAxis("Mouse Y") * sensitivity;
+        Parent.localRotation = Quaternion.Euler(rotationalicious.x, 0, 0);
+        transform.eulerAngles = new Vector2(0, rotationalicious.y);
     }
     void Respawn()
     {
