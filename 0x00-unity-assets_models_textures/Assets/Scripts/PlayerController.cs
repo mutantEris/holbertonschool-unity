@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     public float force;
     public bool isGrounded = true;
     public float turnSpeed = 1.0f;
-    float rotation;
+    public float jumpheight = 35;
     public float sensitivity;
     public Vector3 respawn = new Vector3(0f, 10f, 0f);
     public Transform cam;
@@ -49,20 +49,20 @@ public class PlayerController : MonoBehaviour
     void Movement()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask, QueryTriggerInteraction.Ignore);
-        if (isGrounded && playerVelocity.y !> 0f)
+        if (isGrounded && playerVelocity.y < 0f)
         {
             Debug.Log("PV < 0");
-            playerVelocity.y = -1f;
+            playerVelocity.y = -10f;
         }
         float xDirection = Input.GetAxisRaw("Horizontal");
         float zDirection = Input.GetAxisRaw("Vertical");
 
-        playerChar.Move(new Vector3(0, -gravity * Time.deltaTime, 0));
-        {
+        //playerChar.Move(new Vector3(0, -gravity * Time.deltaTime, 0));
+        //{
             // playerChar.AddForce(0, force, 0);
             // rb.AddForce(0, force, 0);
             // isGrounded = false;
-        }
+       // }
         Vector3 direction = new Vector3(xDirection, 0f, zDirection).normalized;
 
         if (direction.magnitude >= 0.1f)
@@ -78,15 +78,16 @@ public class PlayerController : MonoBehaviour
             moving *= speed;
             moving = transform.rotation * moving;*/
 
-        
+            Debug.Log("IsGrounded = "+isGrounded+" jump = "+Input.GetButtonDown("Jump"));
         //transform.position += moveDirection * speed;
         if (isGrounded && Input.GetButtonDown("Jump"))
         {
             Debug.Log("before jump");
-            playerVelocity.y += Mathf.Sqrt(3f * 2f * 9.8f);
+            playerVelocity.y = jumpheight;//Mathf.Sqrt(3f * 2f * 9.8f);
             Debug.Log("after jump");
         }
-        playerVelocity.y += 9.8f * Time.deltaTime;
+        playerVelocity.y += -gravity * Time.deltaTime;
+        playerChar.Move(playerVelocity * Time.deltaTime);
     }
     void Rotationing()
     {
