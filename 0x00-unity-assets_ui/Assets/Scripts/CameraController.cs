@@ -12,6 +12,7 @@ public class CameraController : MonoBehaviour
     public float sensitivity;
     public float rotateHorizontal;
     public float rotateVertical;
+    public bool isInverted;
 
     void Start()
     {
@@ -29,7 +30,7 @@ public class CameraController : MonoBehaviour
         // }
         // else
         // {
-        rotateVertical = Mathf.Clamp(rotateVertical - Input.GetAxisRaw("Mouse Y"), -30f, 60f);
+        rotateVertical = (Mathf.Clamp(rotateVertical - Input.GetAxisRaw("Mouse Y"), -30f, 60f)*PlayerPrefs.GetInt("yinvert", 1));
         // }
     }
     }

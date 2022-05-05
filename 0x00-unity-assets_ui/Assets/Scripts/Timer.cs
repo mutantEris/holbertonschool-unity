@@ -8,6 +8,7 @@ public class Timer : MonoBehaviour
     public Text timerTime;
     public float start;
     public GameObject PlayerPill;
+    public Text winTime;
 
     void Start()
     {
@@ -17,7 +18,10 @@ public class Timer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        timerGo();
+        if ((PlayerPill.transform.position.x != 0 || PlayerPill.transform.position.z != 0) && start == 0.0)
+        {
+            timerGo();
+        }
     }
         //timerStop();
 
@@ -28,13 +32,11 @@ public class Timer : MonoBehaviour
     // }
     void timerGo()
     {
-            if (PlayerPill.transform.position.x != 0 | PlayerPill.transform.position.z != 0)
-            {
-            float time = Time.time - start;
-            string minutes = ((int) time / 60).ToString();
-            string seconds = (time % 60).ToString("f2");
-            timerTime.text = minutes + ":" + seconds;
-            }
+        float time = Time.time - start;
+        string minutes = ((int) time / 60).ToString();
+        string seconds = (time % 60).ToString("f2");
+        timerTime.text = minutes + ":" + seconds;
+    
     }
     // public void timerStart()
     // {
@@ -48,5 +50,14 @@ public class Timer : MonoBehaviour
     //     if (time.GetComponent<Timer>().enabled)
     //         time.GetComponent<Timer>().enabled = true;
     // }
+    // private void OnTriggerEnter(Collider other)
+    // {
+    //     other.GetComponent<Timer>;()
+    // }
+
+    public void Win()
+    {
+        winTime.text = timerTime.text;
+    }
 }
 
