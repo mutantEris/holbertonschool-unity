@@ -17,7 +17,7 @@ public class Timer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if ((PlayerPill.transform.position.x != 0 | PlayerPill.transform.position.z != 0) && timerTime = 0.0)
+        if ((PlayerPill.transform.position.x != 0 || PlayerPill.transform.position.z != 0) && start == 0.0)
         {
             timerGo();
         }
