@@ -6,7 +6,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: RunningToFalling
+  m_Name: JumpToFalling
   m_Conditions: []
   m_DstStateMachine: {fileID: 1824135661121413732}
   m_DstState: {fileID: 0}
@@ -452,7 +452,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: JumpToFalling
+  m_Name: RunningToFalling
   m_Conditions: []
   m_DstStateMachine: {fileID: 1824135661121413732}
   m_DstState: {fileID: 0}
