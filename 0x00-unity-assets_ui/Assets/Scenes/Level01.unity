@@ -5275,6 +5275,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: WinCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 5484579438564214865, guid: 88c02f8ce7fe4fc43bd69b2ba5589988, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5484579438564214869, guid: 88c02f8ce7fe4fc43bd69b2ba5589988, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -5358,6 +5362,34 @@ PrefabInstance:
     - target: {fileID: 5484579438564214869, guid: 88c02f8ce7fe4fc43bd69b2ba5589988, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5484579439006241849, guid: 88c02f8ce7fe4fc43bd69b2ba5589988, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5484579439006241851, guid: 88c02f8ce7fe4fc43bd69b2ba5589988, type: 3}
+      propertyPath: m_EffectColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5484579439006241851, guid: 88c02f8ce7fe4fc43bd69b2ba5589988, type: 3}
+      propertyPath: m_EffectColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5484579439006241851, guid: 88c02f8ce7fe4fc43bd69b2ba5589988, type: 3}
+      propertyPath: m_EffectColor.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5484579439006241852, guid: 88c02f8ce7fe4fc43bd69b2ba5589988, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5484579439006241852, guid: 88c02f8ce7fe4fc43bd69b2ba5589988, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5484579439006241852, guid: 88c02f8ce7fe4fc43bd69b2ba5589988, type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88c02f8ce7fe4fc43bd69b2ba5589988, type: 3}
